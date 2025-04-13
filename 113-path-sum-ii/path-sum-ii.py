@@ -5,6 +5,11 @@
 #         self.left = left
 #         self.right = right
 
+
+# Space O(Nˆ2)
+# Time O(Nˆ2)
+
+
 class Solution:
     def pathSum(self, root: Optional[TreeNode], targetSum: int) -> List[List[int]]:
         all_paths = []
@@ -28,10 +33,11 @@ class Solution:
             if (root.left is None and
             root.right is None and
             updated_target == 0):
-                results.append(cur_path)
+                results.append(list_deep_copy(cur_path))
             
-            dfs_path_sum(root.left, updated_target, list_deep_copy(cur_path), results)
-            dfs_path_sum(root.right, updated_target, list_deep_copy(cur_path), results)
+            dfs_path_sum(root.left, updated_target, cur_path, results)
+            dfs_path_sum(root.right, updated_target, cur_path, results)
+            cur_path.pop()
 
         dfs_path_sum(root, targetSum, [], all_paths)
         return all_paths
@@ -40,6 +46,7 @@ class Solution:
             
 
             
+
 
 
         
