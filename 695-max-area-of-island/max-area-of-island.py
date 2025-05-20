@@ -1,15 +1,16 @@
+from collections import deque
 class Solution:
     def maxAreaOfIsland(self, grid: List[List[int]]) -> int:
         map_visited_cells = set()
         
-        
         def calculate_area(position):
-            stack = [position]
+            stack = deque()
+            stack.append(position)
             map_visited_cells.add(position)
             area = 0
 
             while len(stack) > 0:
-                i, j = stack.pop(-1)
+                i, j = stack.popleft()
                 area += 1    
                 for i_mv, j_mv in [(-1,0), (0,1), (1,0), (0, -1)]:
                     new_i = i + i_mv
