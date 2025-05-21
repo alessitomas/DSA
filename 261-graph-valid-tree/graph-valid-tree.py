@@ -42,14 +42,13 @@ class Solution:
 
             return True
 
-        # all nodes
-        for i in range(n):
-            if i not in node_map:
-                return False
-            visited_nodes = set()
-            ## bfs no cycle
-            if bfs_no_cycle(node_map[i], visited_nodes) and len(visited_nodes) == n:
-                return True
+
+        if 0 not in node_map:
+            return False
+        visited_nodes = set()
+        ## bfs no cycle
+        if bfs_no_cycle(node_map[0], visited_nodes) and len(visited_nodes) == n:
+            return True
         return False
 
         
