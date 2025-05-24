@@ -4,6 +4,7 @@ class Solution:
             def __init__(self, n):
                 self.parent = [i for i in range(n)]
                 self.rank = [1 for i in range(n)]
+                self.provinces = n
             
             def find(self, a):
                 a_parent = self.parent[a]
@@ -26,6 +27,7 @@ class Solution:
                     
                 if self.rank[root_a] == self.rank[root_b]:
                     self.rank[root_b] += 1
+                self.provinces -= 1
             
             def connect(self, a, b):
                 return self.find(a) == self.find(b)
@@ -37,12 +39,8 @@ class Solution:
             for j in range(len(isConnected[0])):
                 if isConnected[i][j] == 1:
                     dsu.union(i,j)
-                    
-        
-        roots_seen = set()
-        for i in range(len(isConnected)):
-            roots_seen.add(dsu.find(i))
-        return len(roots_seen)
+                
+        return dsu.provinces
             
                     
                     
