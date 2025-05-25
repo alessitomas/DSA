@@ -1,10 +1,7 @@
 class Solution:
-    # Undirected graph, since Friendship is symmetric.
-    # The soluiton will be when all nodes are part of the same connected component.
-    # input edge list
-    # BFS or DFS traversal space and time O(V+E), given the need of an adjacency_list and to traverse #it
-    # Union find, space O(V), time O(V) to create the data structure and than near constant time for #each union
-    
+
+    # Time: O(M LOG M + N + Ma(N)), where M is the number of edges and N is the number of nodes.
+    # Space: O(N)
     def earliestAcq(self, logs: List[List[int]], n: int) -> int:
         class DSU:
             def __init__(self, n):
@@ -41,6 +38,9 @@ class Solution:
                 self.components -= 1
                 return self.components == 1
         
+        if len(logs) < n-1:
+            return -1
+
         dsu = DSU(n)
         logs.sort(key= lambda x: x[0])
         
