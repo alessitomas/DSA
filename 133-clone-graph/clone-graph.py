@@ -22,6 +22,9 @@ class Node:
 
 
 from typing import Optional
+# time O(N + V)
+# space O(N)
+from collections import deque
 class Solution:
     def cloneGraph(self, node: Optional['Node']) -> Optional['Node']:
         if node is None:
@@ -29,29 +32,25 @@ class Solution:
         
         og_to_mock = {}
         visited_nodes = set()
-        
-        def dfs_clone_graph(node):
-            if node in visited_nodes:
-                return
-            
-            if node not in og_to_mock:
-                og_to_mock[node] = Node(node.val)
-            
-            for neigh in node.neighbors:
-                if neigh not in og_to_mock:
-                    og_to_mock[neigh] = Node(neigh.val)
-                # creating connections for mock node
-                og_to_mock[node].neighbors.append(og_to_mock[neigh])
 
-            # after creating all conections cur node is done
+        def bfs_traversal(node):
+            og_to_mock[node] = Node(node.val)
+            
+            queue = deque([node])
             visited_nodes.add(node)
-            
-            # calling the recursive dfs in all neighbors
-            for neigh in node.neighbors:
-                dfs_clone_graph(neigh)
 
+            while len(queue) > 0:
+                cur_node = queue.popleft()
+                for neigh in cur_node.neighbors:
+                    if neigh not in og_to_mock:
+                        og_to_mock[neigh] = Node(neigh.val)
+                    
+                    og_to_mock[cur_node].neighbors.append(og_to_mock[neigh])
+                    if neigh not in visited_nodes:
+                        queue.append(neigh)
+                        visited_nodes.add(neigh)
 
-        dfs_clone_graph(node)
+        bfs_traversal(node)
         return og_to_mock[node]
 
         
