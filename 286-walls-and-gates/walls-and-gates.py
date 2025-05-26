@@ -18,7 +18,7 @@ class Solution:
         for i in range(len(rooms)):
             for j in range(len(rooms[0])):
                 if rooms[i][j] == 0:
-                    gates_position.append((i,j,0))
+                    gates_position.append((i,j))
 
         # time (mn)
         def bfs_traversal(gates_position):
@@ -34,7 +34,7 @@ class Solution:
 
             while len(queue) > 0:
                 cur_cell = queue.popleft()
-                i, j, dist = cur_cell
+                i, j = cur_cell
                 
                 # up, right, down, left 
                 for mv_i, mv_j in [(-1, 0), (0, 1), (1, 0), (0, -1)]:
@@ -44,8 +44,8 @@ class Solution:
                         or rooms[new_i][new_j] != INF):
                         continue
                     
-                    queue.append((new_i, new_j, dist+1))
-                    rooms[new_i][new_j] = dist + 1
+                    queue.append((new_i, new_j))
+                    rooms[new_i][new_j] = rooms[i][j] + 1
                 
 
    
