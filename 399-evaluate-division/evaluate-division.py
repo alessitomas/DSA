@@ -46,6 +46,19 @@
 
 # Space Complexity: (E + V + Q)
 # Time Complexity: (Q * (E + V))
+
+
+
+
+
+# identifier weight -> x
+# a -> 2 x
+# b - 3 x
+
+
+# a / b = 2/3
+
+# union(a,b)
 from collections import defaultdict
 class Solution:
     def calcEquation(self, equations: List[List[str]], values: List[float], queries: List[List[str]]) -> List[float]:
@@ -84,7 +97,8 @@ class Solution:
                 res = -1
             else:
                 res = dfs_traversal(num, div, 1, set(), NO_RESULT)
-                res = res if res is not NO_RESULT else -1
+                res = \
+                    res if res is not NO_RESULT else -1
             
             results.append(res)
 
