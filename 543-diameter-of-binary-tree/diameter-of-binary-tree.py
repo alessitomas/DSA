@@ -26,25 +26,31 @@
 #  3.   4
 #6       5
 
-class Solution:
-    def dfs_cal_diameter(self, root):
-        if root is None:
-            return 0, 0
-        
-        mx_act_l, mx_breaked_l = self.dfs_cal_diameter(root.left)
-        mx_act_r, mx_breaked_r = self.dfs_cal_diameter(root.right)
-        
-        mx_act = max(mx_act_l, mx_act_r) + 1
-        cur_breaked = mx_act_l + mx_act_r + 1
-        mx_break = max(mx_breaked_l, mx_breaked_r, cur_breaked)
-
-        return mx_act, mx_break
-    
+# Time: O(N)
+# Space: O(N)
+class Solution:    
     def diameterOfBinaryTree(self, root: Optional[TreeNode]) -> int:
         if root is None:
             return 0
-        _, mx_diameter_nodes = self.dfs_cal_diameter(root)
-        return mx_diameter_nodes - 1
+        
+        diameter = 0
+
+        def dfs_cal_diameter(root):
+            if root is None:
+                return 0
+            nonlocal diameter 
+            
+            left_height = dfs_cal_diameter(root.left)
+            right_height = dfs_cal_diameter(root.right)
+
+            cur_height = max(left_height, right_height) + 1
+            
+            diameter = max(diameter, left_height + 1 + right_height)
+
+            return cur_height 
+
+        dfs_cal_diameter(root)
+        return diameter - 1
 
 
         
