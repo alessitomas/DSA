@@ -49,14 +49,11 @@ class Solution:
             stack = []
             cur_node = root
             
-            while True:
+            while cur_node is not None or len(stack) > 0:
                 while cur_node is not None:
                     stack.append(cur_node)
                     cur_node = cur_node.left
-                
-                if len(stack) < 0:
-                    return None
-                
+
                 # visit
                 cur_node = stack.pop()
                 k -= 1
