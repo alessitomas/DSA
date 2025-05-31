@@ -11,24 +11,67 @@
 # 3,3 -> 3, 3
 # 5,3 -> 3, 3
  
+
+# worst case O(N), when k == N
+# O( (K / Height) rounded up )
+
+# the op needs to be done in less than (N) 
+
+# insetion -> N + 1
+# deletion -> N - 1
+
+# kth - > 3
+# idx_node_map = {0 : node(1), 1: node(2) ...}
+# order = 1 - 2 - 4 - 5
+# idx_node_map
+
+# insertion(3)
+# order = 1 - 2 - 3 - 4 - 5
+# order[kth -1]
+
+
+# create minHeap from the tree
+# kth smallest k * log N
+
+
+# insertion Log N
+
+# removal kt * Log N
+
 class Solution:
     # 5, 3
     def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:
-        # kth, k
-        def in_order_traversal(root, k):
-            if root is None:
-                return (None, k)
-            l_sub, k = in_order_traversal(root.left, k)
-            if l_sub is not None:
-                return (l_sub, k)
-            k -= 1  
-            # none, 0
-            if k == 0:
-                return (root.val, k)
-            r_sub, k = in_order_traversal(root.right, k)
+        if root is None:
+            return None
         
-            if r_sub is not None:
-                return (r_sub, k)
-            return (None, k)
-        kth, _ = in_order_traversal(root, k)
+        # kth, k
+        def in_order_traversal_iterative(root, k):
+            stack = []
+            cur_node = root
+            
+            while True:
+                while cur_node is not None:
+                    stack.append(cur_node)
+                    cur_node = cur_node.left
+                
+                if len(stack) < 0:
+                    return None
+                
+                # visit
+                cur_node = stack.pop()
+                k -= 1
+                if k == 0:
+                    return cur_node.val
+                
+                cur_node = cur_node.right
+        return in_order_traversal_iterative(root, k)
+
+
+
+
+
+
+
+
+        kth = in_order_traversal(root, k)
         return kth
