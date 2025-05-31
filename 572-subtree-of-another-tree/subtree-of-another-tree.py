@@ -14,7 +14,7 @@
 # than start a dfs that will verify it correctness and structure
 # in time complexity when do we consider N+E and when do we consider only N
 
-# O(Nˆ2) , maybe ther is room for improvemnts
+# O(N*M) , maybe ther is room for improvemnts
 
 class Solution:
     def is_tree_equal(self, tree1, tree2):
