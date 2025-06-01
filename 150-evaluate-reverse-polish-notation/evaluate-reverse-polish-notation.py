@@ -14,14 +14,15 @@
 class Solution:
     def evalRPN(self, tokens: List[str]) -> int:        
         def calculations(a, b, op):
-            if op == "+":
-                return a + b
-            elif op == "-":
-                return a - b
-            elif op == "/":
-                return int(a / b)
-            elif op == "*":
-                return a * b
+            match op:
+                case "+":
+                    return a + b
+                case "-":
+                    return a - b
+                case "/":
+                    return int(a / b)
+                case "*":
+                    return a * b
 
         operations =  set(["+", "-", "/", "*"])
         # [0]
