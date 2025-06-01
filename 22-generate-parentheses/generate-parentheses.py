@@ -8,19 +8,8 @@
 
 
 
-# 3 
-# lenth = 6, ["(", ")"]
-# lenth = 4, ["(", ")"]
-
-# open_count = 0
-# if open_count is zero I need top open
-
-# lenth =  ["(", "(", ")"]
-# open_count = 1
-
-# lenght_left -cur_open  >= 2
-
-
+# time: O(2ˆN), upper bound that would be considering invalida cases, my solution does prunning on those.
+# space: O(2ˆN), upper bound
 class Solution:
     def generateParenthesis(self, n: int) -> List[str]:
            
@@ -36,13 +25,12 @@ class Solution:
                 if cur_open == 0 or length_left - cur_open >= 2:
                     cur_state.append("(")
                     backtracking(cur_state, length_left-1, cur_open+1)
+                    cur_state.pop(-1)
                     
                 if cur_open > 0:
                     cur_state.append(")")
                     backtracking(cur_state, length_left-1, cur_open-1)
-            
-            # backtrack
-            cur_state.pop(-1)
+                    cur_state.pop(-1)
             return    
 
                 
