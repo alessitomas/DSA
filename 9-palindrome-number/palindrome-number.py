@@ -1,3 +1,9 @@
+"""
+T: O(N)
+S: O(N)
+
+"""
+
 class Solution:
     def isPalindrome(self, x: int) -> bool:
         if x < 0:
