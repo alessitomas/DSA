@@ -18,8 +18,21 @@ For every K shift right all values one time, and the last go to the front.
 for i in range k
     shift right
 
-time: O(K * N)
+time: O(N**2)
 space: O(1)
+
+
+[0,1,2]
+
+[2,| 0,1]
+
+[1,2,| 0]
+
+mv = 3
+
+[1,2,3,4,5]
+
+[3,4,5 |,1,2]
 
 
 """
@@ -32,12 +45,28 @@ class Solution:
         """
         Do not return anything, modify nums in-place instead.
         """
-    
-        nums_cpy = [v for v in nums]
+        if len(nums) <= 1:
+            return 
+        
+        # k can be bigger than nums
 
-        for i in range(len(nums)):
-            new_idx = (i + k) % len(nums)
-            nums[new_idx] = nums_cpy[i]
+        moves = k % len(nums) 
+
+        if moves == 0:
+            return 
+        
+        # reverse nums
+        for i in range(len(nums) // 2 ):
+            nums[i], nums[len(nums) - 1 - i]  = nums[len(nums) - 1 - i], nums[i]
+
+        for i in range(moves // 2):
+            nums[i], nums[ moves - 1 - i] = nums[moves - 1 - i], nums[i]
+
+
+        # after moves must be reversed
+        length = len(nums) - moves
+        for i in range(length // 2):
+            nums[moves + i], nums[ len(nums) - 1 - i] = nums[ len(nums) - 1 - i], nums[moves + i]
 
 
     
