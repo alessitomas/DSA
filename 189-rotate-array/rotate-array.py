@@ -35,6 +35,12 @@ mv = 3
 [3,4,5 |,1,2]
 
 
+Solution 3. Reverse algorithm (three reverse algorithm)
+
+
+
+
+
 """
 
 
