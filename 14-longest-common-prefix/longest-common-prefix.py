@@ -27,31 +27,66 @@ Keep track of the longest common prefix
 w1 is the cur_lcp, then iterate over the other words updating the current lcp.
 
 
-Time: O(N * Lm), where N is the lenght of the arr and lm is the length of the first words.
-Space: O(Lm),
+Time: O(N * fL), where N is the lenght of the arr and fL is the length of the first word.
+Space: O(fL)
 
 
 """
 
-import math
+"""
+
+Time: O(mL * N)
+Space: O(Max(N, mL))
+
+"""
+
+
+
+
+"""
+
+O(N)
+
+
+--- O(L)
+
+Time: O(N*L + L^2)
+
+
+---- L, L-1, L-2, L-3, L-4, ... 1 
+---- P.A: (L + 1) * L / 2
+
+"""
+
 class Solution:
     def longestCommonPrefix(self, strs: List[str]) -> str:
+        def update_lcp(cur_lcp, cur_s):
+            min_length = min(len(cur_lcp), len(cur_s))
+            
+            for i in range(min_length):
+                if cur_lcp[i] != cur_s[i]:
+                    return cur_lcp[:i]
+            
+            return cur_lcp[: min_length ]
+
+
+
         if len(strs) == 0:
             return ""
-
-        prefix = []
-
-        min_length = min(len(s) for s in strs)
         
-        for pointer in range(min_length): 
-            char = strs[0][pointer]
+        lcp = list(strs[0])
+
+        for i in range(1, len(strs)):
             
-            if all(char == s[pointer] for s in strs[1:]):
-                prefix.append(char)
-            else:
-                break 
+            s = strs[i]
+            lcp = update_lcp(lcp, s)
+
+
+        return "".join(lcp) 
+
         
-        return "".join(prefix)
+
+
             
 
             
