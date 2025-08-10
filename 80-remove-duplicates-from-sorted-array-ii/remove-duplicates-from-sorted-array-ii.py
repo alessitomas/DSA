@@ -1,3 +1,13 @@
+"""
+
+Solution 1: Perform a shift left has each duplicate that appear more than twice
+
+
+
+
+"""
+
+
 class Solution:
     # [1,1,2,2,3,4,5,5]
     # []
@@ -9,8 +19,6 @@ class Solution:
 
             for i in range(start, len(arr) -1 ):
                 arr[i] = arr[i+1]
-
-
 
         cur_app = 1
         removals = 0
