@@ -22,20 +22,35 @@ time: O(N**2)
 space: O(1)
 
 
-[0,1,2]
-
-[2,| 0,1]
-
-[1,2,| 0]
-
-mv = 3
-
-[1,2,3,4,5]
-
-[3,4,5 |,1,2]
-
-
 Solution 3. Reverse algorithm (three reverse algorithm)
+
+T: O(N)
+S: O(1)
+
+
+
+nums = [1,2,3,4,5,6,7], k = 4
+
+nums = [7,1,2,3,4,5,6]
+nums = [6,7,1,2,3,4,5]
+nums = [5,6,7,1,2,3,4]
+
+
+nums = [4,5,6,7,1,2,3]
+
+--------------------------------------------------------
+k = 4
+nums = [1,2,3,4,5,6,7]
+
+nums = [4,5,6,7,| 1,2,3]
+
+
+nums = [1,2,3,4,5,6,7]
+
+nums = [7,6,5,4,| 3,2,1]
+
+nums = [4,5,6,7,| 1,2,3]
+
 
 
 
@@ -44,35 +59,24 @@ Solution 3. Reverse algorithm (three reverse algorithm)
 """
 
 
-
-
 class Solution:
     def rotate(self, nums: List[int], k: int) -> None:
-        """
-        Do not return anything, modify nums in-place instead.
-        """
-        if len(nums) <= 1:
-            return 
+        n = len(nums)
+        k %= n
+        count = 0  # number of elements moved
         
-        # k can be bigger than nums
-
-        moves = k % len(nums) 
-
-        if moves == 0:
-            return 
-        
-        # reverse nums
-        for i in range(len(nums) // 2 ):
-            nums[i], nums[len(nums) - 1 - i]  = nums[len(nums) - 1 - i], nums[i]
-
-        for i in range(moves // 2):
-            nums[i], nums[ moves - 1 - i] = nums[moves - 1 - i], nums[i]
-
-
-        # after moves must be reversed
-        length = len(nums) - moves
-        for i in range(length // 2):
-            nums[moves + i], nums[ len(nums) - 1 - i] = nums[ len(nums) - 1 - i], nums[moves + i]
-
-
-    
+        for start in range(n):
+            if count >= n:
+                break
+            
+            current = start
+            prev_value = nums[start]
+            
+            while True:
+                next_idx = (current + k) % n
+                nums[next_idx], prev_value = prev_value, nums[next_idx]
+                current = next_idx
+                count += 1
+                
+                if current == start:
+                    break
