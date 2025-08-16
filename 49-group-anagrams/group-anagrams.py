@@ -18,6 +18,14 @@ S: O(N * L)
 
 10 min
 
+
+Solution 2:
+
+map: tuple of bit max : group []
+
+for every word in strs
+    calculate tuple bit mask
+
 """
 
 
