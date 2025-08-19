@@ -11,9 +11,15 @@ i -> j, if i can jump to j index.
 
 Than using dfs verify of index 0 can reach index len(nums) -1
 
-T: O( V + E )
+T: O( V + E ), in this case V is N and E in the worst case is N ** 2 so it can be descbribed as O(N**2)
 S: O( V + E ) 
 
+
+Solution 2:
+
+Greddy algorithm, keep track of the best so far.
+
+Local optimal will lead to global optimal
 
 """
 
@@ -24,26 +30,19 @@ class Solution:
         if not nums:
             return False 
 
-        visited = set()
+        max_reachable = 0
 
-        def dfs(cur_index, target):
-            
-            if cur_index in visited:
+        for i in range(len(nums)):
+            if i > max_reachable:
                 return False
             
-            if cur_index >= target:
-                return True
+            else:
+                max_reachable = max(max_reachable, i + nums[i])
 
-            visited.add(cur_index)
-
-            for jmp in range(1, nums[cur_index] + 1):
-                if dfs(cur_index + jmp, target):
-                    return True
-
-            return False
+            
+        return True
 
 
-        return dfs(0, len(nums) - 1)
 
 
 
