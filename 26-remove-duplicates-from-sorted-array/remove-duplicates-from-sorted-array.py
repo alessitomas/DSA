@@ -9,9 +9,8 @@ class Solution:
             if seeker_is_unique:
                 nums[writer] = nums[seeker]
                 writer += 1
-                seeker += 1
-            else:
-                seeker += 1
+        
+            seeker += 1
         
         return writer 
 
