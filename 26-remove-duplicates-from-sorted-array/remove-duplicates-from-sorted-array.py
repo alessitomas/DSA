@@ -4,7 +4,7 @@ class Solution:
 
         while seeker < len(nums):
             # if unique
-            seeker_is_unique = seeker == 0 or nums[seeker] != nums[seeker - 1]
+            seeker_is_unique = seeker + 1 >= len(nums) or nums[seeker] != nums[seeker + 1]
 
             if seeker_is_unique:
                 nums[writer] = nums[seeker]
