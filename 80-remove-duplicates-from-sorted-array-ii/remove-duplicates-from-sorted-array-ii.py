@@ -33,20 +33,10 @@ mv seeker
 class Solution:
     def removeDuplicates(self, nums: List[int]) -> int: 
         writer = seeker = 0
-        
-        cur_char = nums[seeker]
-        cur_count = 0
     
         while seeker < len(nums):
-            
-            if nums[seeker] == cur_char:
-                cur_count += 1
-            else:
-                cur_char = nums[seeker]
-                cur_count = 1
-
-
-            write_seeker = seeker < 2 or 2 >= cur_count
+        
+            write_seeker = seeker + 2 >= len(nums) or nums[seeker] != nums[seeker + 2]
             if write_seeker:
                 nums[writer] = nums[seeker]
                 writer += 1
