@@ -39,42 +39,59 @@ rM Ding
 """
 
 
+# class Solution:
+#     def reverseWords(self, s: str) -> str:
+#         def reverse(start, end, arr):
+#             while end > start:
+#                 arr[start], arr[end] = arr[end], arr[start]
+#                 start += 1
+#                 end -= 1
+        
+#         if not s:
+#             return s 
+        
+#         chars = list(s)
+
+#         start = None
+
+#         for i in range(len(chars)):
+            
+#             if chars[i] != " " and start is None:
+#                 start = i
+                
+#             if chars[i] != " " and i == len(chars) - 1:
+#                 reverse(start, i, chars)
+
+#             if start is not None and chars[i] == " ":
+#                 reverse(start, i - 1, chars)
+#                 start = None
+                
+#         return "".join(chars)
+
+
+
+
+
+
+
 class Solution:
     def reverseWords(self, s: str) -> str:
-        def reverse(start, end, arr):
+        def reverse(arr):
+            start, end = 0, len(arr) -1
             while end > start:
-                arr[start], arr[end] = arr[end], arr[start]
+                arr[start], arr[end] =  arr[end], arr[start] 
                 start += 1
                 end -= 1
-        
-        if not s:
-            return s 
-        
-        chars = list(s)
 
-        start = None
+        words = s.split()
+        words_lists = [list(w) for w in words]
 
-        for i in range(len(chars)):
+        for i, w_list in enumerate(words_lists):
+            reverse(w_list)
+            words_lists[i] = "".join(w_list)
+        
+
+        return " ".join(words_lists) 
+
+
             
-            if chars[i] != " " and start is None:
-                start = i
-                
-            if chars[i] != " " and i == len(chars) - 1:
-                reverse(start, i, chars)
-
-            if start is not None and chars[i] == " ":
-                reverse(start, i - 1, chars)
-                start = None
-                
-        return "".join(chars)
-
-
-
-
-
-
-
-
-
-        
-        
