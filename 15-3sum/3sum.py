@@ -1,36 +1,38 @@
+
+"""
+T: O(Nˆ2)
+S: O(N)
+
+ 0 1 2
+[1,2,3]
+
+len = 3
+
+
+"""
+
+
 class Solution:
     def threeSum(self, nums: List[int]) -> List[List[int]]:
-        if nums is None: return []
-        if len(nums) < 3: return []        
-        # b + c = -a
-        # N LOG N
+        triplets = set()
         nums.sort()
-        triplets = []
-        # i , j
-        prev = None
-        for i in range(len(nums) - 1):
-            j = i + 1
-            k = len(nums) - 1
-            cur_target = (-1) * (nums[i])
-            if nums[i] == prev:
-                continue 
-            prev = nums[i]
-            while k > j:
-                cur_sum = nums[k] + nums[j]
-                if cur_sum > cur_target:
-                    k -= 1
-                elif cur_sum < cur_target:
-                    j += 1
-                else:
-                    triplets.append([nums[i],nums[j],nums[k]])
-                    j += 1
-                    while k > j and nums[j] == nums[j-1]:
-                        j += 1
-                    
-                    k -= 1
 
-        
-        return  triplets
+        for i in range(len(nums) - 2):
+            start, end = i + 1, len(nums) - 1
+            while end > start:
+                cur_sum = nums[start] + nums[end] + nums[i]
+                if cur_sum > 0:
+                    end -= 1
+                elif cur_sum < 0:
+                    start += 1
+                else:
+                    triplets.add((nums[i], nums[start], nums[end]))
+                    end -= 1
+                    start += 1
+
+
+        return [ [t[0], t[1], t[2] ] for t in triplets]
+
 
 
 
