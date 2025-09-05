@@ -14,17 +14,16 @@ class Solution:
         order = []
 
         while len(matrix) * len(matrix[0]) > len(order):
-            order.append(matrix[r][c])
-            visited[r][c] = 1
-            dr, dc = directions[cur_dir]
-
-            if Solution.is_valid(visited, r + dr, c + dc):
-                r += dr
-                c += dc
+            if Solution.is_valid(visited, r, c):
+                order.append(matrix[r][c])
+                visited[r][c] = 1
             else:
+                r -= directions[cur_dir][0]
+                c -= directions[cur_dir][1]
                 cur_dir = (cur_dir + 1) % len(directions)
-                dr, dc = directions[cur_dir]
-                r += dr
-                c += dc
-
+            
+            dr, dc = directions[cur_dir]
+            r += dr
+            c += dc
+        
         return order
