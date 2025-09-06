@@ -34,40 +34,40 @@ S: O(N), recursion stack
 
 """
 
+class Solution:
+    def subsets(self, nums: List[int]) -> List[List[int]]:
+        subsets = []
+
+        def backtracking(idx, subset):
+            subsets.append(subset.copy())
+        
+            for i in range(idx, len(nums)):
+                subset.append(nums[i]) 
+                backtracking(i + 1, subset)
+                subset.pop(-1)
+ 
+        backtracking(0, [])
+        return subsets
 
 # class Solution:
 #     def subsets(self, nums: List[int]) -> List[List[int]]:
-#         subsets = []
+#         """
+#         Generate all subsets (the power set) via backtracking.
+#         Time: O(n * 2^n), total node 2ˆN since there are N values and each one has the option of being included of not included.
 
-#         def backtracking(idx, subset):
-#             subsets.append(subset.copy())
-        
-#             for i in range(idx + 1, len(nums)):
-#                 subset.append(nums[i]) 
-#                 backtracking(i, subset)
-#                 subset.pop(-1)
- 
-#         backtracking(-1, [])
-#         return subsets
+#         Aux Space: O(n) + output
+#         """
+#         res: List[List[int]] = []
+#         n = len(nums)
 
-class Solution:
-    def subsets(self, nums: List[int]) -> List[List[int]]:
-        """
-        Generate all subsets (the power set) via backtracking.
-        Time: O(n * 2^n)
-        Aux Space: O(n) + output
-        """
-        res: List[List[int]] = []
-        n = len(nums)
+#         def dfs(start: int, path: List[int]) -> None:
+#             # Record the current subset
+#             res.append(path.copy())
+#             # Explore further choices
+#             for i in range(start, n):
+#                 path.append(nums[i])
+#                 dfs(i + 1, path)
+#                 path.pop()  # backtrack
 
-        def dfs(start: int, path: List[int]) -> None:
-            # Record the current subset
-            res.append(path.copy())
-            # Explore further choices
-            for i in range(start, n):
-                path.append(nums[i])
-                dfs(i + 1, path)
-                path.pop()  # backtrack
-
-        dfs(0, [])
-        return res
+#         dfs(0, [])
+#         return res
