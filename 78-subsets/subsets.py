@@ -30,20 +30,44 @@ is there a need to explicit a base case? Since index will be already bounded?
 T: O( Nˆ3 ), Nˆ2 nodes N iterations per node
 S: O(N), recursion stack
 
+17 minutes to code it up
+
 """
 
 
+# class Solution:
+#     def subsets(self, nums: List[int]) -> List[List[int]]:
+#         subsets = []
+
+#         def backtracking(idx, subset):
+#             subsets.append(subset.copy())
+        
+#             for i in range(idx + 1, len(nums)):
+#                 subset.append(nums[i]) 
+#                 backtracking(i, subset)
+#                 subset.pop(-1)
+ 
+#         backtracking(-1, [])
+#         return subsets
+
 class Solution:
     def subsets(self, nums: List[int]) -> List[List[int]]:
-        subsets = []
+        """
+        Generate all subsets (the power set) via backtracking.
+        Time: O(n * 2^n)
+        Aux Space: O(n) + output
+        """
+        res: List[List[int]] = []
+        n = len(nums)
 
-        def backtracking(idx, subset):
-            subsets.append(subset.copy())
-        
-            for i in range(idx + 1, len(nums)):
-                subset.append(nums[i]) 
-                backtracking(i, subset)
-                subset.pop(-1)
- 
-        backtracking(-1, [])
-        return subsets
+        def dfs(start: int, path: List[int]) -> None:
+            # Record the current subset
+            res.append(path.copy())
+            # Explore further choices
+            for i in range(start, n):
+                path.append(nums[i])
+                dfs(i + 1, path)
+                path.pop()  # backtrack
+
+        dfs(0, [])
+        return res
