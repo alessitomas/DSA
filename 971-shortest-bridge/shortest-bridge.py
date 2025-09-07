@@ -17,6 +17,12 @@ I can't do just one BFS because I can't have path that is not the shortest to a 
 I don't need to flip it I can just added it to a set()
 """
 
+
+"""
+T: O( I1 * m*n )
+S: O( m*n )
+"""
+
 from collections import deque
 
 class Solution:
@@ -57,14 +63,15 @@ class Solution:
         
         first_r, first_c = get_first_land()
         
-        visit_island(first_r, first_c)
+        if first_r == -1:
+            return float("inf")
 
-        shortest_path = float("inf")
-        
-        def get_shortest_path(r, c):
-            visited = set( [(r, c)] )
+        visit_island(first_r, first_c)
+    
+        def get_shortest_path():
+            visited = set( )
             # queue: (r, c, water_in_path)
-            queue = deque([(r, c, 0)])
+            queue = deque([(r, c, 0) for r, c in island_one])
 
             while len(queue) > 0:
                 cur_r, cur_c, cur_path = queue.popleft()
@@ -81,17 +88,14 @@ class Solution:
                     queue.append((nr, nc, cur_path + 1))
                     visited.add((nr, nc))
 
-            return float("inf")
+            return float("inf")        
 
-        
-        for land_r, land_c in island_one:
-            shortest_path = min(shortest_path, get_shortest_path(land_r, land_c))
+        return get_shortest_path()
                     
-        return shortest_path
 
 
 
-        # 1.1 init globla min path 
+        # 1.1 init global min path 
 
         # 2. for every cell node in island 1
             # do a BFS and calculate the smallest path for that given cell
