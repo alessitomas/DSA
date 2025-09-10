@@ -1,54 +1,66 @@
+"""
+
+BFS, because visited by distance 
+
+
+Multi-source BFS with all gates postions
+
+Visit all reachable empty positions, keep track of the visited position to avoid infinite loop or revisiting with a major distance.
+
+Avoid visiting gates, avoid visiting walls and avoid visiting already visited cells.
+
+I can use the rooms matrix to keep track of the visited cells.
+
+optimal:
+
+t: O( R*C )
+s: O( R*C ), due to the queue for every cell with can append a constant number of neighboors
+
+"""
+
+
 from collections import deque
 class Solution:
     def wallsAndGates(self, rooms: List[List[int]]) -> None:
-        """
-        Do not return anything, modify rooms in-place instead.
-        """
-        # Matrix can be seen as a graph problem
-        # 1. Store the position of each gate
-        # 2. For each gate do a BFS traversal over the matrix, update the cell value if the # distance to the gate is less then the value of the cell
-
-        # 1. Store the position of each gate
+        # edge case
+        if not rooms or not rooms[0]:
+            return 
         
-        # time (mn)
-        gates_position = []
-        INF = 2**31 - 1 
+        R, C = len(rooms), len(rooms[0])
+        # queue init with gates
+        queue = deque()
         
-        # time (mn)
-        for i in range(len(rooms)):
-            for j in range(len(rooms[0])):
-                if rooms[i][j] == 0:
-                    gates_position.append((i,j))
-
-        # time (mn)
-        def bfs_traversal(gates_position):
-            def in_bounds(i, j):
-                if (i < len(rooms) and i >= 0 
-                    and j < len(rooms[0]) and j >= 0):
-                    return True
-                return False
-
-            # i, j, gate_dist 
-            # SPACE (mn)
-            queue = deque(gates_position)            
-
-            while len(queue) > 0:
-                cur_cell = queue.popleft()
-                i, j = cur_cell
+        for i in range(R):
+            for j in range(C):
                 
-                # up, right, down, left 
-                for mv_i, mv_j in [(-1, 0), (0, 1), (1, 0), (0, -1)]:
-                    new_i = i + mv_i 
-                    new_j = j + mv_j
-                    if (not in_bounds(new_i, new_j) 
-                        or rooms[new_i][new_j] != INF):
+                if rooms[i][j] == 0:
+                    queue.append( 
+                        (i, j, 0)
+                    )
+        
+        def in_bounds(row, column):
+            return 0 <= row < R and 0 <= column < C 
+            
+        def bfs_traversal():
+            EMPTY = 2**31 -1
+            directions = [[-1,0], [1,0], [0,-1], [0,1]]
+            
+            while len(queue) > 0:
+                row, col, dist = queue.popleft()
+
+                for dr, dc in directions:
+                    nr, nc = row + dr, col + dc
+
+                    if not in_bounds(nr, nc) or rooms[nr][nc] != EMPTY:
                         continue
                     
-                    queue.append((new_i, new_j))
-                    rooms[new_i][new_j] = rooms[i][j] + 1
-                
+                    queue.append(
+                        (nr, nc, dist + 1)
+                    )   
+                    rooms[nr][nc] = dist + 1
 
-   
-        bfs_traversal(gates_position)
+        bfs_traversal()
         
-        return rooms
+
+        
+        
