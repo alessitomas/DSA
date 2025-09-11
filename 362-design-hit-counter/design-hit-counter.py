@@ -61,54 +61,34 @@ c 3 -> 2 -> 1
 n 1 -> 300 -> 301
 """
 
-
-
-
-
-
+from collections import deque
 class HitCounter:
-    class Node:
-        def __init__(self, timestamp, nxt=None, prev=None):
-            self.count = 1
-            self.time = timestamp
-            self.nxt = nxt
-            self.prev = prev
-
     def __init__(self):
-        self.dummy = self.Node(None)
-        self.tail = self.dummy
+        # [timestamp, count], because count is mutable
+        self.queue = deque()
         self.total = 0
 
     def clean_up(self, target_timestamp):
-        # cleanup
-        head = self.dummy.nxt
-
-        while head and head.time <= (target_timestamp - 300):
-            self.total -= head.count
-            head.prev.nxt = head.nxt
-            if head.nxt:
-                head.nxt.prev = head.prev
-            head = head.nxt
-
-        if not head:
-            self.tail = self.dummy    
-    
-
+        while len(self.queue) > 0 and self.queue[0][0] <= (target_timestamp - 300):
+            self.total -= self.queue[0][1]
+            self.queue.popleft()
     
     # O(1), max cleanup operations each time is 299
     def hit(self, timestamp: int) -> None:
+        
         if not timestamp:
             return
 
-        if timestamp == self.tail.time:
-            self.tail.count += 1
+        if len(self.queue) > 0 and self.queue[-1][0] == timestamp:
+            self.queue[-1][1] += 1
         else:
-            node = self.Node(timestamp)
-            self.tail.nxt, node.prev = node, self.tail # append
-            self.tail = self.tail.nxt # new tail
-        
+            self.queue.append(
+                [timestamp, 1]
+            )
+            
         self.total += 1
         self.clean_up(timestamp)
+
     
 
     # O(1)
