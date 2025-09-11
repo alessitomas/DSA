@@ -17,19 +17,33 @@ false
 
 """
 
-
+from collections import deque
 class Logger:
-
-    def __init__(self): 
-        self.message_to_timestamp = {}
-
-    def shouldPrintMessage(self, timestamp: int, message: str) -> bool:
         
-        if message not in self.message_to_timestamp or timestamp >= self.message_to_timestamp[message] + 10:
-            self.message_to_timestamp[message] = timestamp
-            return True
+    # S: O(N), where N is the number of unique messages 
+    def __init__(self): 
+        self.msg_queue = deque()
+        self.msg_set = set()
+        self.TIMEOUT = 10
 
-        return False
+    def clean_up(self, curr_timestamp):
+        while len(self.msg_queue) > 0 and curr_timestamp - self.msg_queue[0][1] >= self.TIMEOUT:          
+            message, _ = self.msg_queue.popleft()
+            self.msg_set.remove(message)
+
+    # t: O(1)
+    # s: O(1)
+    def shouldPrintMessage(self, timestamp: int, message: str) -> bool:
+        self.clean_up(timestamp)
+        
+        if message in self.msg_set:
+            return False
+
+        
+        self.msg_queue.append((message, timestamp))
+        self.msg_set.add(message)
+        return True
+        
         
 
         
