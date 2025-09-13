@@ -1,41 +1,29 @@
 class Codec:
     def __init__(self):
-        self.START = ord("a")
-        self.end = ord("z")
-        self.mappings = [self.START]
-        self.index = 0
+        self.counter = 0
         self.BASE_URL = "http://tinyurl.com/"
         self.db = {}
+        self.range = ord("z") - ord("a") + 1
 
-
+    # O(M)
     def key_gen(self):
-        key_mappings = []
+        """Convert integer to base 26 string"""
+        chars = []
+        num = self.counter
+        while num > 0:
+            chars.append( chr(ord("a") + num % self.range))
+            num //= self.range
         
-        for n in self.mappings:
-            key_mappings.append(chr(n))
+        chars.reverse()
+        return "".join(chars)
 
-        self.update_key()
-
-        return "".join(key_mappings)
-
-    def update_key(self):
-        if self.mappings[self.index] < self.end:
-            self.mappings[self.index] += 1
-            return
-        
-        if self.index == len(self.mappings) - 1:
-            self.mappings = [self.START] * (len(self.mappings) + 1)
-            return
-
-        self.index += 1
-        self.mappings[self.index] += 1
-
-
+    # O(M)
     def encode(self, longUrl: str) -> str:
         """Encodes a URL to a shortened URL.
         """
         key = self.key_gen()
         self.db[key] = longUrl
+        self.counter += 1
         return self.BASE_URL + key
 
         
