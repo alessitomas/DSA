@@ -3,16 +3,15 @@ class Codec:
         self.counter = 0
         self.BASE_URL = "http://tinyurl.com/"
         self.db = {}
-        self.range = ord("z") - ord("a") + 1
+        self.char = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
     # O(M)
     def key_gen(self):
-        """Convert integer to base 26 string"""
         chars = []
         num = self.counter
         while num > 0:
-            chars.append( chr(ord("a") + num % self.range))
-            num //= self.range
+            chars.append( self.char[num % len(self.char)] )
+            num //= len(self.char)
         
         chars.reverse()
         return "".join(chars)
