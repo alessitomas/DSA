@@ -1,8 +1,10 @@
 class Codec:
+    # S: O(N), where N is # unqiue url that where encoded
     def __init__(self):
         self.counter = 0
         self.BASE_URL = "http://tinyurl.com/"
         self.db = {}
+        self.urls = {}
         self.char = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
     # O(log Counter)
@@ -26,11 +28,15 @@ class Codec:
         """
         if not longUrl:
             return 
+        
+        if longUrl in self.urls:
+            return self.urls[longUrl]
 
         key = self.key_gen()
         self.db[key] = longUrl
         self.counter += 1
-        return self.BASE_URL + key
+        self.urls[longUrl] = self.BASE_URL + key
+        return self.urls[longUrl]
 
         
     # T : O(1)
