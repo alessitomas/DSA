@@ -73,8 +73,11 @@ edge case handling:
 
 class Solution:
     def trap(self, height: List[int]) -> int:
-        left_max = right_max = 0
-        lp, rp = 0, len(height) - 1
+        if not height or len(height) < 3:
+            return 0
+
+        left_max, right_max = height[0], height[-1]
+        lp, rp = 1, len(height) - 2
         count = 0
         
         while rp >= lp:
