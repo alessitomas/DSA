@@ -20,20 +20,18 @@ UNION FIND to explore ?
 
 """
 
-from collections import deque, defaultdict
+from collections import deque
 
 class Solution:
     def findSmallestRegion(self, regions: List[List[str]], region1: str, region2: str) -> str:
 
         # adjacency list
-        regions_graph = defaultdict(list)
+        regions_graph = {}
 
         for row in regions:
             for region in row:
-                regions_graph[region].append(row[0])
-
-        print(regions_graph)
-
+                regions_graph.setdefault(region, []).append(row[0])
+                
         def get_closest_parent_region(src_a, src_b):
             visited = {src_a: 1, src_b: 2} # "1" by region 1 "2" by region 2 
             queue = deque([src_a, src_b])
