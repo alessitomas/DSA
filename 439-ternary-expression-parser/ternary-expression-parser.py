@@ -35,26 +35,29 @@ T?F?3:2:T?2:7
 class Solution:
     def parseTernary(self, expression: str) -> str:
         stack = []
-        open_to_close = {}
 
-        for i, c in enumerate(expression):
-            if c == "?":
-                stack.append(i)
-            elif c == ":":
-                open_to_close[stack.pop()] = i
+        for i in range(len(expression) - 1, -1, -1):
+            c = expression[i]
             
+            if c == "?":
+                condition = expression[i-1]
+                true_val =  stack.pop()
+                stack.pop() # ":"
+                false_val = stack.pop()
 
-        start = 0
-        end = len(expression) -1
+                if condition == "T":
+                    stack.append(true_val)
+                else:
+                    stack.append(false_val)
+    
+            elif i == len(expression) - 1 or expression[i+1] != "?":
+            
+                stack.append(c)
 
-        while end > start:
-            if expression[start] == "T":
-                end = open_to_close[start+1] - 1
-                start += 2
-            else:
-                start = open_to_close[start+1] + 1
+        return stack[0]
 
-        return expression[start]
+
+    
 
 
 
