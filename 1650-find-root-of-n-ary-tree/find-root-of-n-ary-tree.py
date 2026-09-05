@@ -32,7 +32,7 @@ if already visited O(1),
 total work is O(N) + n * O(1) (from every parent trying to visit it again, or from the nood already visited on the list)
 
 time: O(N)
-space: O(N), keep track of visited in a set 
+space: O(N), keep track of visited in a set and call stack 
 
 
 
@@ -42,20 +42,13 @@ class Solution:
     def findRoot(self, tree: List['Node']) -> 'Node':
         visited = set()
 
-        # visiting successors
-        def dfs(node, root):
-            if not node or node in visited:
-                return
-            
-            if root != node: # don't visit root
-                visited.add(node)
-
-            for c in node.children:
-                dfs(c, root)
-
         for node in tree:
-            dfs(node, node)
-
+            if node is None:
+                continue
+            
+            for c in node.children:
+                visited.add(c)
+            
         for node in tree:
             if node not in visited:
                 return node
