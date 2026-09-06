@@ -5,39 +5,66 @@
 #         self.left = None
 #         self.right = None
 
+"""
 
-# dfs
+naive dfs that will expore all nodes
+
+time: O(N)
+space: O(N)
+
+
+given that the input is a BST
+
+
+
+
+if p and q are in different subtrees root is the LCA
+if p or q is the root than root is LCA
+
+else explore only the subtree that contains p and q 
+
+
+to be in the left subtree
+
+
+node.val <= root.val
+
+to be in the right subtree 
+
+node.val > root.val
+
+
+"""
+
 class Solution:
     def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        if root is None:
+            return None
+
+        def find_lca(root, p, q):
+            if root == p or root == q:
+                return root
+            
+            p_is_left = p.val <= root.val
+            q_is_left = q.val <= root.val 
+
+            if p_is_left != q_is_left:
+                return root
+            
+            subtree = root.left
+            
+            if not p_is_left:
+                subtree = root.right
+            
+            return find_lca(subtree,p,q)
+
+            
+
         
-        # lca, has_p_or_q
-        def dfs_rec(root, p, q):
-            
-            if root is None:
-                return None, False
-
-            
-            lca_left, has_node_left = dfs_rec(root.left, p, q)
-            
-            if lca_left:
-                return lca_left, True
-
-            lca_right, has_node_right = dfs_rec(root.right, p, q)
-
-            if lca_right:
-                return lca_right, True 
-
-
-            if has_node_left and has_node_right:
-                return root, True
-            
-            is_root = (root == p or root == q)
-            
-            if (has_node_left or has_node_right) and is_root:
-                return root, True
-
-            return None, is_root or has_node_left or has_node_right
         
+        return find_lca(root, p, q)
 
-        lca, _ = dfs_rec(root, p, q)
-        return lca
+
+
+
+        
