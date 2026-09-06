@@ -86,7 +86,7 @@ class Solution:
             if s[start] == s[(start+1) % len(s)]:
                 score -= 1
             
-            if s[start-1 % len(s)] == s[start]:
+            if s[(start-1) % len(s)] == s[start]:
                 score += 1
         
         return count 
