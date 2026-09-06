@@ -33,15 +33,23 @@ to be in the right subtree
 
 node.val > root.val
 
+WORST CASE
+
+TIME: O(N)
+SPACE: O(N)
+
+BALANCED TREE
+
+TIME: O(log n)
+SPACE: O(log n)
+
 
 """
 
 class Solution:
     def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
-        if root is None:
-            return None
+        while root:
 
-        def find_lca(root, p, q):
             if root == p or root == q:
                 return root
             
@@ -55,14 +63,10 @@ class Solution:
             
             if not p_is_left:
                 subtree = root.right
-            
-            return find_lca(subtree,p,q)
 
+            root = subtree
             
-
-        
-        
-        return find_lca(root, p, q)
+        return None
 
 
 
