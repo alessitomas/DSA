@@ -44,31 +44,37 @@ TIME: O(log n)
 SPACE: O(log n)
 
 
+TIME: O(n)
+SPACE: O(1)
+
 """
 
 class Solution:
     def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
-        while root:
-
-            if root == p or root == q:
-                return root
+        lca = None
+        
+        def dfs_lca(node):
             
-            p_is_left = p.val <= root.val
-            q_is_left = q.val <= root.val 
+            if node is None:
+                return None
 
-            if p_is_left != q_is_left:
-                return root
+            p_is_left = p.val <= node.val
+            q_is_left = q.val <= node.val 
+
+            is_node_target = (node is p) or (node is q)
+
+            if (p_is_left != q_is_left) or is_node_target:
+                return node
             
-            subtree = root.left
+            subtree = node.left
             
             if not p_is_left:
-                subtree = root.right
+                subtree = node.right
 
-            root = subtree
+            return dfs_lca(subtree)
             
-        return None
 
-
+        return dfs_lca(root)
 
 
         
